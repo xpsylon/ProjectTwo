@@ -1,11 +1,13 @@
 {% if lista_ultimas_preguntas %}
     <ul>
-        {% for question in lista_ultimas_preguntas %}
+        {% for i in lista_ultimas_preguntas %}
             <li>
-                <a href="/polls/{{ question_id }}/">{{ question.question_text}}</a>
+                <!--removing hardcoded url and replacing it by name=-->
+                <!--<a href="/polls/{{ question_id }}/">{{ question.question_text}}</a>-->
+                <a href="{% url 'detalle' i.id %}">{{ i.question_text }}</a>
             </li>
         {% endfor %}
+    </ul>
 {% else %}
     <p>No polls are available</p>
-    </ul>
 <{% endif %}
