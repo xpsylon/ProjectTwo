@@ -3,7 +3,7 @@
         {% for i in lista_ultimas_preguntas %}
             <li>
                 <!--removing hardcoded url and replacing it by name=-->
-                <!--<a href="/polls/{{ question_id }}/">{{ question.question_text}}</a>-->
+                {# <a href="/polls/{{ question_id }}/">{{ i.question_text}}</a> #}
                 {# polls:detalle a partir de app_name en polls/urls.py #}
                 <a href="{% url 'polls:detalle' i.id %}">{{ i.question_text }}</a>
             </li>
