@@ -14,8 +14,15 @@ class Question(models.Model):
         return self.question_text
     
     #creamos metodo para que nos diga hace cuantos dias una pregunta fue publicada...
+
+    """ 
+    OLD WITH BUG: returns True if the pub_date is in the future
     def was_published_recently(self):
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+        return self.pub_date >= timezone.now() - datetime.timedelta(days=1) """
+    def was_published_recently(self):
+        ahora = timezone.now()
+        return ahora - datetime.timedelta(days=1) <= self.pub_date <= ahora
+
     
     '''This is a method definition for the was_published_recently() method of a class.
 
