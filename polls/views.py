@@ -41,7 +41,7 @@ class IndexView(generic.ListView):
 
     def get_queryset(self) -> QuerySet[Any]:
         # agregamos lookup lte (less than or equal) para que no imprima preguntas con fecha futura.
-        return Question.objects.filter(pub_date__lte=timezone.now).order_by('-pub_date')[:5]
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
 
 """ 
 OLD DUMMY DATA
@@ -66,9 +66,12 @@ def detail(request, question_id):
     return render(request, 'polls/detail.html', {'pregunta':frage})
  """
 
-class DetailQuestionView(generic.DetailView):
+class DetailView(generic.DetailView):
     model = Question
     template_name = 'polls/detail.html'
+    """ Excluding future questions even if the user tries to reach them directly by the url """
+    def get_queryset(self):
+        return Question.objects.filter(pub_date__lte=timezone.now())
 
 """
 OLD
