@@ -1,40 +1,85 @@
-from django.contrib import admin
-# para que se pueda editar desde el admin site.
-from .models import Question, Choice
+from django.contrib import admin  
+# Importing the admin module from Django
 
-#cambia el orden de pub_date (1) y question_text (2):
+from .models import Choice, Question  
+# Importing the Choice and Question models from the current directory
+
+
+class ChoiceInline(admin.TabularInline):
+    model = Choice  
+    # Specifies the model to be used for the inline form (Choice model)
+    extra = 1  
+    # Specifies the number of extra forms to display for adding choices
+
+
 class QuestionAdmin(admin.ModelAdmin):
-    #agregamos el field set conformado por una lista que contiene dos tuplas que cada una contiene un diccionario cuyo valor es una lista.
     fieldsets = [
-        (None, {'fields': ['question_text']}), 
-        ('Date information', {'fields': ['pub_date']})
+        (None, {"fields": ["question_text"]}),  
+        # Defines the fields to be displayed in the admin form for Question model
+        ("Date information", {"fields": ["pub_date"], "classes": ["collapse"]}),  
+        # Additional field with collapsing class (from css django built in classes)
     ]
+    inlines = [ChoiceInline]  
+    # Specifies the inline form to be used for the Question model
 
-admin.site.register(Question, QuestionAdmin)
-admin.site.register(Choice)
 
-""" Certainly! Here's a breakdown and explanation of each line of code:
+admin.site.register(Question, QuestionAdmin)  
+# Registers the Question model with the admin site using QuestionAdmin configuration
 
-1. `from django.contrib import admin`: This line imports the `admin` module from the `django.contrib` package. 
- It allows us to access and customize the Django administration site.
+""" Certainly! Here's the code neatly organized with line-by-line explanations:
 
-2. `from .models import Question`: This line imports the `Question` model from the local module's `models.py` file. 
- The dot (`.`) indicates that the `models.py` file is in the same directory as the current file.
+python
 
-3. `class QuestionAdmin(admin.ModelAdmin):`: This line defines a new class named `QuestionAdmin` which inherits from `admin.ModelAdmin` class. 
- This class will be used to customize the admin interface for the `Question` model.
+from django.contrib import admin  # Importing the admin module from Django
 
-4. `fieldsets = [...]`: This line defines the `fieldsets` attribute of the `QuestionAdmin` class. 
- It is a list that specifies how the form fields should be grouped and displayed in the admin interface. Each element of the list is a tuple that contains a label for the fieldset and a dictionary that defines the fields to be included in that fieldset.
+from .models import Choice, Question  # Importing the Choice and Question models from the current directory
 
-5. `(None, {"fields": ["question_text"]}),`: This line defines the first fieldset element. 
- It consists of a tuple with `None` as the label and a dictionary with a single key-value pair. The key `"fields"` represents the fields to be included in the fieldset, and the value `["question_text"]` specifies that only the field `"question_text"` should be included.
 
-6. `("Date information", {"fields": ["pub_date"]}),`: This line defines the second fieldset element. 
- It follows the same structure as the previous line but includes the `"pub_date"` field in a fieldset labeled `"Date information"`.
+class ChoiceInline(admin.StackedInline):
+    model = Choice  # Specifies the model to be used for the inline form (Choice model)
+    extra = 3  # Specifies the number of extra forms to display for adding choices
 
-7. `admin.site.register(Question, QuestionAdmin)`: This line registers the `Question` model with the `QuestionAdmin` class in the Django admin site. 
- It makes the `Question` model visible and editable in the admin interface, using the customizations defined in `QuestionAdmin`.
 
-These lines of code demonstrate how to import the necessary modules, define a custom admin class, specify fieldsets for grouping form fields, 
- and register the model with the admin site. This allows you to have more control over the appearance and behavior of the `Question` model in the Django administration site. """
+class QuestionAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None, {"fields": ["question_text"]}),  # Defines the fields to be displayed in the admin form for Question model
+        ("Date information", {"fields": ["pub_date"], "classes": ["collapse"]}),  # Additional field with collapsing class
+    ]
+    inlines = [ChoiceInline]  # Specifies the inline form to be used for the Question model
+
+
+admin.site.register(Question, QuestionAdmin)  # Registers the Question model with the admin site using QuestionAdmin configuration
+
+Explanation:
+
+    from django.contrib import admin: Imports the admin module from the Django framework, 
+    which provides functionality for creating administration interfaces.
+
+    from .models import Choice, Question: Imports the Choice and Question models from the current directory. 
+    These models are assumed to be defined in a models.py file within the same directory.
+
+    class ChoiceInline(admin.StackedInline): Defines a class ChoiceInline that inherits from admin.StackedInline. 
+    This class represents an inline form for the Choice model within the admin interface.
+
+    model = Choice: Specifies the model to be used for the inline form, which is the Choice model.
+
+    extra = 3: Sets the number of extra forms to display for adding choices. 
+    In this case, it will display three additional forms.
+
+    class QuestionAdmin(admin.ModelAdmin): Defines a class QuestionAdmin that inherits from admin.ModelAdmin. 
+    This class represents the configuration for the admin interface of the Question model.
+
+    fieldsets = [...]: Defines a list of tuples representing the fieldsets for the admin form. 
+    Each tuple contains a title and a dictionary specifying the fields to be displayed.
+
+    (None, {"fields": ["question_text"]}):
+    Represents the first fieldset. It has no title (None) and includes the "question_text" field.
+
+    ("Date information", {"fields": ["pub_date"], "classes": ["collapse"]}): 
+    Represents the second fieldset with the title "Date information". It includes the "pub_date" field and applies the "collapse" class to make it collapsible in the admin form.
+
+    inlines = [ChoiceInline]: Specifies the inline form to be used for the Question model. 
+    It assigns the ChoiceInline class to the inlines attribute of the QuestionAdmin class.
+
+    admin.site.register(Question, QuestionAdmin): Registers the Question model with the admin site using the QuestionAdmin configuration.
+    This makes the Question model accessible and editable through the admin interface. """
