@@ -21,6 +21,7 @@ class QuestionAdmin(admin.ModelAdmin):
     ]
     inlines = [ChoiceInline]  
     # Specifies the inline form to be used for the Question model
+    list_display = ['question_text', 'pub_date', 'was_published_recently']
 
 
 admin.site.register(Question, QuestionAdmin)  
