@@ -1,5 +1,5 @@
 import datetime
-
+from django.contrib import admin
 from django.db import models
 from django.utils import timezone
 
@@ -19,6 +19,14 @@ class Question(models.Model):
     OLD WITH BUG: returns True if the pub_date is in the future
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1) """
+    
+    #Agregamos @decorator class-based de Django para pasar metadata al metodo was_published_recently. Viene en django.contrib.admin
+    @admin.display(
+        boolean=True,
+        ordering='pub_date',         
+        description='Published recently?',
+    )
+
     def was_published_recently(self):
         ahora = timezone.now()
         return ahora - datetime.timedelta(days=1) <= self.pub_date <= ahora

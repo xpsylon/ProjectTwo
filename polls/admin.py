@@ -22,6 +22,9 @@ class QuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]  
     # Specifies the inline form to be used for the Question model
     list_display = ['question_text', 'pub_date', 'was_published_recently']
+    # Adds a filter to the questions by published date:
+    list_filter = ['pub_date']
+    search_fields = ['question_text']
 
 
 admin.site.register(Question, QuestionAdmin)  
