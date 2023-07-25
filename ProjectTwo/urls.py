@@ -19,4 +19,5 @@ from django.urls import path, include
 urlpatterns = [
     path('polls/', include('polls.urls')),#todo url con polls/ reenviar a polls/urls
     path('admin/', admin.site.urls),
+    path("books/", include("books.urls", namespace="books")),
 ]
